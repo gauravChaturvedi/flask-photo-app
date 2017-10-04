@@ -28,7 +28,7 @@
         for(var i = 0; i < list_of_images.length; i++) {
           var imageName = list_of_images[i];
           var divElement = $('<div></div>');
-          $(`<span class="delete-image-span glyphicon glyphicon-trash" onclick="deleteImage('${imageName}')">X</span>`).appendTo(divElement);
+          $(`<span class="delete-image-span" onclick="deleteImage('${imageName}')">X</span>`).appendTo(divElement);
           var img = $('<img class="uploaded-image">');
           img.attr('src', '/images/' + list_of_images[i]);
           img.appendTo(divElement);
