@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Python Flask Photo App</title>
+
+    <script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+  .uploaded-image{
+    height: 100px;
+    width: 100px;
+  }
+  #imagediv {
+    display: flex;
+    flex-direction: row
+  }
+  .delete-image-span {
+      position: absolute;
+  }
+</style>
+
+<script>
+  var list_of_images;
+  $.get("http://127.0.0.1:5000/get-images-list", function(data, status){
+        list_of_images = data;
+        for(var i = 0; i < list_of_images.length; i++) {
+          var imageName = list_of_images[i];
+          var divElement = $('<div></div>');
+          $(`<span class="delete-image-span glyphicon glyphicon-trash" onclick="deleteImage('${imageName}')">X</span>`).appendTo(divElement);
+          var img = $('<img class="uploaded-image">');
+          img.attr('src', '/images/' + list_of_images[i]);
+          img.appendTo(divElement);
+          divElement.appendTo('#imagediv');
+        }
+      });
+
+  function deleteImage(imagename) {
+        $.ajax({
+        url: 'http://127.0.0.1:5000/delete-image/' + imagename,
+        type: 'DELETE',
+        success: function() {
+            window.location = 'http://127.0.0.1:5000';
+          }
+        });
+  }
+
+</script>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h3 class="text-muted">Python Flask Photo App</h3>
+        </div>
+
+        <h4>Uploaded Images</h4>
+        <div id="imagediv">
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-6">
+              <form action = "http://localhost:5000/uploader" method = "POST"
+              enctype = "multipart/form-data">
+                <input type = "file" name = "file" />
+                <input type = "submit"/>
+              </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
