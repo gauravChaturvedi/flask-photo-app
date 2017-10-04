@@ -33,7 +33,7 @@ def file_uploader():
       f.save(secure_filename(f.filename))
       return render_template('successful-upload.html')
 
-# Change from get to
+# Change from get to delete
 @app.route("/delete-image/<imagename>", methods = ['DELETE'])
 def del_image(imagename):
     os.remove(os.path.join('./', imagename))
